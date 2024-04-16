@@ -1,7 +1,9 @@
 package iesthiar;
 
 import java.io.IOException;
+import java.net.URL;
 
+import iesthiar.persona.EditorPersonaControlador;
 import iesthiar.persona.VistaPersonaController;
 import iesthiar.persona.persona;
 import javafx.application.Application;
@@ -9,8 +11,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class LibretaDirecciones extends Application {
@@ -45,6 +50,9 @@ public class LibretaDirecciones extends Application {
         this.escenarioPrincipal = escenarioPrincipal;
         // Establezco el título
         this.escenarioPrincipal.setTitle("Libreta de direcciones");
+        // Establezco el icono de aplicación
+        this.escenarioPrincipal.getIcons().add(
+                new Image(LibretaDirecciones.class.getResourceAsStream("img/libretaDirecciones.png")));
         // inicialización del contenedor principal
         initContenedorPrincipal();
         // muestro la vista persona
@@ -77,7 +85,7 @@ public class LibretaDirecciones extends Application {
             // Carga la vista de persona.
             FXMLLoader loader = new FXMLLoader();
 
-            loader.setLocation(LibretaDirecciones.class.getResource("vistaPersona.fxml"));
+            loader.setLocation(LibretaDirecciones.class.getResource("persona/vistaPersona.fxml"));
             AnchorPane personOverview = (AnchorPane) loader.load();
 
             // Añade la vista al centro del contenedor principal
@@ -87,6 +95,42 @@ public class LibretaDirecciones extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    // Vista editarPersona
+    public boolean muestraEditarPersona(persona persona) {
+        // Cargo la vista persona a partir de VistaPersona.fxml
+        Pane editarPersona = null;
+        FXMLLoader loader = new FXMLLoader();
+
+        try {
+            URL location = LibretaDirecciones.class.getResource("persona/editarPersona.fxml");
+            loader.setLocation(location);
+            editarPersona = (Pane) loader.load();
+        } catch (IOException ex) {
+            // ex.printStackTrace();
+            System.err.println("---------------------------------------");
+            return false;
+        }
+
+        // Creo el escenario de edición (con modal) y establezco la escena
+        Stage escenarioEdicion = new Stage();
+        escenarioEdicion.setTitle("Editar Persona");
+        escenarioEdicion.initModality(Modality.WINDOW_MODAL);
+        escenarioEdicion.initOwner(escenarioPrincipal);
+        Scene escena = new Scene(editarPersona);
+        escenarioEdicion.setScene(escena);
+
+        // Asigno el escenario de edición y la persona seleccionada al controlador
+        EditorPersonaControlador controlador = loader.getController();
+        controlador.setEscenarioEdicion(escenarioEdicion);
+        controlador.setPersona(persona);
+
+        // Muestro el diálogo hasta que el usuario lo cierre
+        escenarioEdicion.showAndWait();
+
+        // devuelvo el botón pulsado
+        return controlador.isGuardarClicked();
     }
 
     /**

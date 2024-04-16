@@ -6,4 +6,7 @@ module iesthiar {
 
     opens iesthiar to javafx.fxml;
     exports iesthiar;
+
+    opens iesthiar.persona to javafx.fxml;
+    exports iesthiar.persona;
 }
