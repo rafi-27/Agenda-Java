@@ -4,7 +4,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import iesthiar.LibretaDirecciones;
-import iesthiar.persona.*;
+//import iesthiar.persona.persona;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -36,8 +36,8 @@ public class VistaPersonaController implements Initializable {
   private LibretaDirecciones libretaDirecciones;
 
   /**
-       * El constructor es llamado antes que el método initialize()
-       */
+  * El constructor es llamado antes que el método initialize()
+  */
       public VistaPersonaController() {
       }
 
@@ -64,8 +64,4 @@ public class VistaPersonaController implements Initializable {
     // Add observable list data to the table
     personaTabla.setItems(libretaD.getDatosPersona());
   }
-
-
-
-
 }

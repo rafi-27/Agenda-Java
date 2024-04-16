@@ -26,7 +26,6 @@ public class persona {
 
     /**
      * Cosntructor con algunos datos.
-     * 
      * @param nombre
      * @param apellidos
      */
